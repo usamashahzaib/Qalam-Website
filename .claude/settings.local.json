@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx next *)",
+      "Bash(npm run *)",
+      "Bash(Get-ChildItem \"C:\\\\Users\\\\Tier-3\\\\Desktop\\\\my-10k-website - Copy\" -Exclude node_modules,.next)",
+      "Bash(Select-Object Name, LastWriteTime)",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\Tier-3\\\\Desktop\\\\my-10k-website - Copy\" | Where-Object { $_.Name -notin @\\('node_modules', '.next'\\) } | Format-Table Name, LastWriteTime -AutoSize)",
+      "PowerShell(taskkill *)"
+    ]
+  }
+}
