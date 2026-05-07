@@ -69,8 +69,8 @@ html {
 }
 
 body {
-  background: #ffffff;
-  color: #0a0a0a;
+  background: #030f0e;
+  color: #ffffff;
   font-family: var(--font-jakarta-sans), system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -80,7 +80,7 @@ body {
 
 /* Glassmorphism nav */
 .glass {
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(5, 31, 28, 0.85);
   backdrop-filter: blur(18px) saturate(200%);
   -webkit-backdrop-filter: blur(18px) saturate(200%);
 }
@@ -88,8 +88,8 @@ body {
 /* Grid-line background pattern (80 px) */
 .grid-bg {
   background-image:
-    linear-gradient(rgba(13, 74, 69, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(13, 74, 69, 0.06) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
   background-size: 80px 80px;
 }
 

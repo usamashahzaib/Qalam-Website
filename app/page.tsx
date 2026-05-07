@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { FadeUp } from "@/components/FadeUp"
 import { PricingCard } from "@/components/PricingCard"
 import { TestimonialCard } from "@/components/TestimonialCard"
+import GridGlowBackground from "@/components/ui/grid-glow-background"
 
 /* ─── Static data ─────────────────────────────────────────────── */
 
@@ -336,14 +337,14 @@ function FAQSection() {
   const [open, setOpen] = useState<number | null>(null)
 
   return (
-    <section className="py-24 px-6 bg-white" id="faq">
+    <section className="py-24 px-6 bg-transparent" id="faq">
       <div className="max-w-[760px] mx-auto">
         <FadeUp className="text-center mb-14">
           <span className="chip border-teal/30 text-teal mb-4">FAQ</span>
-          <h2 className="text-4xl font-bold text-zinc-900 mt-3 mb-4">
+          <h2 className="text-4xl font-bold text-white mt-3 mb-4">
             Questions we get <span className="text-gold">all the time</span>
           </h2>
-          <p className="text-zinc-500 text-lg">
+          <p className="text-white/60 text-lg">
             Can&apos;t find what you&apos;re looking for?{" "}
             <a href="mailto:hello@qalam.ai" className="text-teal underline underline-offset-2">
               Email us →
@@ -354,16 +355,16 @@ function FAQSection() {
         <div className="flex flex-col gap-3">
           {FAQ_ITEMS.map((item, i) => (
             <FadeUp key={i} delay={i * 0.05}>
-              <div className="border border-zinc-200 rounded-xl overflow-hidden hover:border-teal/30 transition-colors">
+              <div className="border border-white/10 bg-white/5 rounded-xl overflow-hidden hover:border-teal/30 transition-colors">
                 <button
                   className="w-full flex items-center justify-between px-6 py-4 text-left"
                   onClick={() => setOpen(open === i ? null : i)}
                 >
-                  <span className="font-semibold text-zinc-900 text-base">{item.q}</span>
+                  <span className="font-semibold text-white text-base">{item.q}</span>
                   <motion.span
                     animate={{ rotate: open === i ? 45 : 0 }}
                     transition={{ duration: 0.2 }}
-                    className="shrink-0 ml-4 w-5 h-5 rounded-full border border-zinc-300 flex items-center justify-center text-zinc-500 text-lg font-light"
+                    className="shrink-0 ml-4 w-5 h-5 rounded-full border border-white/20 flex items-center justify-center text-white/50 text-lg font-light"
                   >
                     +
                   </motion.span>
@@ -377,7 +378,7 @@ function FAQSection() {
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                       className="overflow-hidden"
                     >
-                      <p className="px-6 pb-5 text-zinc-600 text-sm leading-relaxed">{item.a}</p>
+                      <p className="px-6 pb-5 text-white/70 text-sm leading-relaxed">{item.a}</p>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -396,8 +397,7 @@ export default function HomePage() {
     <>
       {/* ── HERO ─────────────────────────────────────────────────── */}
       <section className="relative min-h-screen flex items-center overflow-hidden pt-28 pb-16">
-        <HeroBG />
-
+        <GridGlowBackground glowColors={["#0D4A45", "#C9871F", "#0a3c38"]} backgroundColor="#030f0e" gridColor="rgba(13,74,69,0.08)" glowCount={12}>
         <div className="relative z-10 max-w-[1200px] mx-auto px-6 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Text column */}
@@ -408,7 +408,7 @@ export default function HomePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
               >
-                <span className="chip border-teal/30 text-teal bg-teal-50 mb-6 inline-flex">
+                <span className="chip border-teal/30 text-teal bg-teal/10 mb-6 inline-flex">
                   <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
                   AI Voice Fingerprint — Now Live
                 </span>
@@ -419,7 +419,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 28 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-                className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-zinc-900 leading-[1.05] tracking-tight mb-5"
+                className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] tracking-tight mb-5"
               >
                 Write Less.
                 <br />
@@ -433,7 +433,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-                className="font-cormorant text-2xl italic text-zinc-600 leading-relaxed mb-8 max-w-xl"
+                className="font-cormorant text-2xl italic text-white/70 leading-relaxed mb-8 max-w-xl"
               >
                 Your AI writing partner that learns your voice and turns raw ideas into scroll-stopping LinkedIn content — in seconds.
               </motion.p>
@@ -457,7 +457,7 @@ export default function HomePage() {
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <Link
                     href="#how-it-works"
-                    className="inline-flex items-center gap-2 px-7 py-4 border-2 border-zinc-200 text-zinc-700 font-semibold rounded-xl text-base hover:border-teal/40 hover:bg-teal-50 transition-all"
+                    className="inline-flex items-center gap-2 px-7 py-4 border-2 border-white/20 text-white/70 font-semibold rounded-xl text-base hover:border-teal/40 hover:bg-teal/10 transition-all"
                   >
                     <span>▶</span> See How It Works
                   </Link>
@@ -489,8 +489,8 @@ export default function HomePage() {
                     ))}
                     <span className="text-zinc-700 text-sm font-semibold ml-1">4.9/5</span>
                   </div>
-                  <p className="text-sm text-zinc-500">
-                    Join <strong className="text-zinc-900">12,000+</strong> creators, founders &amp; HR leaders
+                  <p className="text-sm text-white/60">
+                    Join <strong className="text-white">12,000+</strong> creators, founders &amp; HR leaders
                   </p>
                 </div>
               </motion.div>
@@ -502,12 +502,13 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+        </GridGlowBackground>
       </section>
 
       {/* ── LOGO / SOCIAL PROOF BAR ──────────────────────────────── */}
-      <section className="py-8 border-y border-zinc-100 bg-zinc-50 overflow-hidden">
+      <section className="py-8 border-y border-white/10 bg-white/5 overflow-hidden">
         <div className="max-w-[1200px] mx-auto px-6 text-center mb-4">
-          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-400">
+          <p className="text-xs font-semibold uppercase tracking-widest text-white/40">
             Trusted by teams at
           </p>
         </div>
@@ -518,7 +519,7 @@ export default function HomePage() {
             ).map((name, i) => (
               <span
                 key={i}
-                className="shrink-0 px-10 text-zinc-400 font-semibold text-lg opacity-60 hover:opacity-100 transition-opacity"
+                className="shrink-0 px-10 text-white/40 font-semibold text-lg opacity-60 hover:opacity-100 transition-opacity"
               >
                 {name}
               </span>
@@ -531,12 +532,12 @@ export default function HomePage() {
       <section id="features" className="py-28 px-6 grid-bg">
         <div className="max-w-[1200px] mx-auto">
           <FadeUp className="text-center mb-16">
-            <span className="chip border-teal/30 text-teal bg-teal-50 mb-4">Features</span>
-            <h2 className="text-4xl sm:text-5xl font-bold text-zinc-900 mt-3 mb-4">
+            <span className="chip border-teal/30 text-teal bg-teal/10 mb-4">Features</span>
+            <h2 className="text-4xl sm:text-5xl font-bold text-white mt-3 mb-4">
               Everything you need to{" "}
               <span className="text-gold gold-underline">own LinkedIn</span>
             </h2>
-            <p className="text-zinc-500 text-xl max-w-2xl mx-auto leading-relaxed">
+            <p className="text-white/60 text-xl max-w-2xl mx-auto leading-relaxed">
               Six precision-built tools that work together to make you the most consistent, authentic voice in your feed.
             </p>
           </FadeUp>
@@ -551,13 +552,13 @@ export default function HomePage() {
                     borderColor: "#C9871F",
                     transition: { duration: 0.22 },
                   }}
-                  className="bg-white rounded-2xl border border-zinc-100 p-7 h-full transition-colors cursor-default"
+                  className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-7 h-full transition-colors cursor-default"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-teal-50 flex items-center justify-center text-2xl mb-5">
+                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-2xl mb-5">
                     {f.icon}
                   </div>
-                  <h3 className="text-lg font-bold text-zinc-900 mb-2">{f.title}</h3>
-                  <p className="text-zinc-500 text-sm leading-relaxed">{f.desc}</p>
+                  <h3 className="text-lg font-bold text-white mb-2">{f.title}</h3>
+                  <p className="text-white/60 text-sm leading-relaxed">{f.desc}</p>
                 </motion.div>
               </FadeUp>
             ))}
@@ -566,15 +567,15 @@ export default function HomePage() {
       </section>
 
       {/* ── HOW IT WORKS ─────────────────────────────────────────── */}
-      <section id="how-it-works" className="py-28 px-6 bg-white">
+      <section id="how-it-works" className="py-28 px-6 bg-transparent">
         <div className="max-w-[1200px] mx-auto">
           <FadeUp className="text-center mb-16">
-            <span className="chip border-teal/30 text-teal bg-teal-50 mb-4">How It Works</span>
-            <h2 className="text-4xl sm:text-5xl font-bold text-zinc-900 mt-3 mb-4">
+            <span className="chip border-teal/30 text-teal bg-teal/10 mb-4">How It Works</span>
+            <h2 className="text-4xl sm:text-5xl font-bold text-white mt-3 mb-4">
               From idea to publish in{" "}
               <span className="text-gold gold-underline">60 seconds</span>
             </h2>
-            <p className="text-zinc-500 text-xl max-w-xl mx-auto">
+            <p className="text-white/60 text-xl max-w-xl mx-auto">
               Three steps. That&apos;s all it takes to go from blank page to LinkedIn-ready post.
             </p>
           </FadeUp>
@@ -588,13 +589,13 @@ export default function HomePage() {
                 <div className="relative flex flex-col items-center text-center">
                   {/* Number badge */}
                   <div className="relative mb-5">
-                    <div className="w-20 h-20 rounded-2xl bg-teal-50 border-2 border-teal/20 flex flex-col items-center justify-center">
+                    <div className="w-20 h-20 rounded-2xl bg-white/5 border-2 border-teal/20 flex flex-col items-center justify-center">
                       <span className="text-2xl mb-0.5">{step.icon}</span>
                       <span className="text-teal text-xs font-bold">{step.step}</span>
                     </div>
                   </div>
-                  <h3 className="text-xl font-bold text-zinc-900 mb-3">{step.title}</h3>
-                  <p className="text-zinc-500 text-sm leading-relaxed max-w-[260px]">{step.desc}</p>
+                  <h3 className="text-xl font-bold text-white mb-3">{step.title}</h3>
+                  <p className="text-white/60 text-sm leading-relaxed max-w-[260px]">{step.desc}</p>
                 </div>
               </FadeUp>
             ))}
@@ -603,11 +604,11 @@ export default function HomePage() {
       </section>
 
       {/* ── TESTIMONIALS ─────────────────────────────────────────── */}
-      <section className="py-28 px-6 bg-zinc-50 grid-bg">
+      <section className="py-28 px-6 bg-transparent grid-bg">
         <div className="max-w-[1200px] mx-auto">
           <FadeUp className="text-center mb-14">
-            <span className="chip border-teal/30 text-teal bg-teal-50 mb-4">Testimonials</span>
-            <h2 className="text-4xl sm:text-5xl font-bold text-zinc-900 mt-3 mb-4">
+            <span className="chip border-teal/30 text-teal bg-teal/10 mb-4">Testimonials</span>
+            <h2 className="text-4xl sm:text-5xl font-bold text-white mt-3 mb-4">
               Real results from{" "}
               <span className="text-gold gold-underline">real creators</span>
             </h2>
@@ -622,15 +623,15 @@ export default function HomePage() {
       </section>
 
       {/* ── PRICING ──────────────────────────────────────────────── */}
-      <section id="pricing" className="py-28 px-6 bg-white">
+      <section id="pricing" className="py-28 px-6 bg-transparent">
         <div className="max-w-[1200px] mx-auto">
           <FadeUp className="text-center mb-14">
-            <span className="chip border-teal/30 text-teal bg-teal-50 mb-4">Pricing</span>
-            <h2 className="text-4xl sm:text-5xl font-bold text-zinc-900 mt-3 mb-4">
+            <span className="chip border-teal/30 text-teal bg-teal/10 mb-4">Pricing</span>
+            <h2 className="text-4xl sm:text-5xl font-bold text-white mt-3 mb-4">
               Simple, transparent{" "}
               <span className="text-gold gold-underline">pricing</span>
             </h2>
-            <p className="text-zinc-500 text-xl max-w-xl mx-auto">
+            <p className="text-white/60 text-xl max-w-xl mx-auto">
               Start free. Upgrade when you&apos;re ready. Cancel anytime.
             </p>
           </FadeUp>

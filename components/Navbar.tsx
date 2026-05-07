@@ -89,7 +89,7 @@ export function Navbar() {
         transition={{ duration: 0.5, ease: "easeOut" }}
         className={`glass border-b transition-all duration-300 ${
           scrolled
-            ? "border-zinc-200/80 shadow-[0_2px_20px_rgba(13,74,69,0.08)]"
+            ? "border-white/10 shadow-[0_2px_20px_rgba(0,0,0,0.3)]"
             : "border-transparent"
         }`}
       >
@@ -102,7 +102,7 @@ export function Navbar() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="px-3 py-2 text-sm font-medium text-zinc-600 hover:text-teal rounded-lg hover:bg-teal-50 transition-all duration-150"
+                className="px-3 py-2 text-sm font-medium text-white/70 hover:text-teal rounded-lg hover:bg-teal/10 transition-all duration-150"
               >
                 {link.label}
               </Link>
@@ -113,7 +113,7 @@ export function Navbar() {
           <div className="hidden md:flex items-center gap-3">
             <Link
               href="/login"
-              className="px-4 py-2 text-sm font-semibold text-teal hover:bg-teal-50 rounded-lg transition-colors"
+              className="px-4 py-2 text-sm font-semibold text-teal hover:bg-teal/10 rounded-lg transition-colors"
             >
               Log In
             </Link>
@@ -129,24 +129,24 @@ export function Navbar() {
 
           {/* Mobile hamburger */}
           <button
-            className="md:hidden flex flex-col gap-1.5 p-2 rounded-lg hover:bg-zinc-100 transition-colors"
+            className="md:hidden flex flex-col gap-1.5 p-2 rounded-lg hover:bg-white/10 transition-colors"
             onClick={() => setMobileOpen((o) => !o)}
             aria-label="Toggle menu"
           >
             <motion.span
               animate={mobileOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
               transition={{ duration: 0.2 }}
-              className="block w-5 h-0.5 bg-zinc-700 rounded-full origin-center"
+              className="block w-5 h-0.5 bg-white/80 rounded-full origin-center"
             />
             <motion.span
               animate={mobileOpen ? { opacity: 0 } : { opacity: 1 }}
               transition={{ duration: 0.15 }}
-              className="block w-5 h-0.5 bg-zinc-700 rounded-full"
+              className="block w-5 h-0.5 bg-white/80 rounded-full"
             />
             <motion.span
               animate={mobileOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
               transition={{ duration: 0.2 }}
-              className="block w-5 h-0.5 bg-zinc-700 rounded-full origin-center"
+              className="block w-5 h-0.5 bg-white/80 rounded-full origin-center"
             />
           </button>
         </div>
@@ -159,7 +159,7 @@ export function Navbar() {
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.25, ease: "easeInOut" }}
-              className="overflow-hidden md:hidden border-t border-zinc-100"
+              className="overflow-hidden md:hidden border-t border-white/10"
             >
               <div className="px-6 py-4 flex flex-col gap-1">
                 {NAV_LINKS.map((link) => (
@@ -167,16 +167,16 @@ export function Navbar() {
                     key={link.label}
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="px-3 py-2.5 text-sm font-medium text-zinc-700 hover:text-teal hover:bg-teal-50 rounded-lg transition-all"
+                    className="px-3 py-2.5 text-sm font-medium text-white/70 hover:text-teal hover:bg-teal/10 rounded-lg transition-all"
                   >
                     {link.label}
                   </Link>
                 ))}
-                <div className="mt-3 pt-3 border-t border-zinc-100 flex flex-col gap-2">
+                <div className="mt-3 pt-3 border-t border-white/10 flex flex-col gap-2">
                   <Link
                     href="/login"
                     onClick={() => setMobileOpen(false)}
-                    className="px-3 py-2.5 text-sm font-semibold text-teal hover:bg-teal-50 rounded-lg transition-colors text-center"
+                    className="px-3 py-2.5 text-sm font-semibold text-teal hover:bg-teal/10 rounded-lg transition-colors text-center"
                   >
                     Log In
                   </Link>

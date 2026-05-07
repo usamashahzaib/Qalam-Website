@@ -28,7 +28,7 @@ export function TestimonialCard({
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: index * 0.12 }}
       whileHover={{ y: -4, transition: { duration: 0.2 } }}
-      className="bg-white rounded-2xl border border-zinc-100 p-7 shadow-sm hover:shadow-[0_8px_32px_rgba(13,74,69,0.1)] hover:border-gold/30 transition-all duration-300 flex flex-col"
+      className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-7 shadow-sm hover:shadow-[0_8px_32px_rgba(13,74,69,0.2)] hover:border-gold/30 transition-all duration-300 flex flex-col"
     >
       {/* Stars */}
       <div className="flex gap-0.5 mb-4">
@@ -38,7 +38,7 @@ export function TestimonialCard({
       </div>
 
       {/* Quote */}
-      <blockquote className="font-cormorant text-lg italic text-zinc-700 leading-relaxed flex-1 mb-6">
+      <blockquote className="font-cormorant text-lg italic text-white/70 leading-relaxed flex-1 mb-6">
         &ldquo;{quote}&rdquo;
       </blockquote>
 
@@ -51,8 +51,8 @@ export function TestimonialCard({
           {initials}
         </div>
         <div>
-          <p className="text-sm font-semibold text-zinc-900">{name}</p>
-          <p className="text-xs text-zinc-500">
+          <p className="text-sm font-semibold text-white">{name}</p>
+          <p className="text-xs text-white/60">
             {title} · {company}
           </p>
         </div>

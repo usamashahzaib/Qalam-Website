@@ -33,7 +33,7 @@ export function PricingCard({
       className={`relative flex flex-col rounded-2xl border p-8 ${
         highlighted
           ? "bg-teal border-teal shadow-[0_8px_40px_rgba(13,74,69,0.25)]"
-          : "bg-white border-zinc-200 shadow-sm hover:border-gold/50 hover:shadow-[0_8px_32px_rgba(13,74,69,0.08)] transition-all duration-300"
+          : "bg-white/[0.08] backdrop-blur-md border-white/10 shadow-sm hover:border-gold/50 hover:shadow-[0_8px_32px_rgba(13,74,69,0.15)] transition-all duration-300"
       }`}
     >
       {badge && (
@@ -53,16 +53,16 @@ export function PricingCard({
           {plan}
         </p>
         <div className="flex items-end gap-1 mb-2">
-          <span className={`text-5xl font-bold ${highlighted ? "text-white" : "text-zinc-900"}`}>
+          <span className={`text-5xl font-bold ${highlighted ? "text-white" : "text-white"}`}>
             {price}
           </span>
           {period && (
-            <span className={`text-sm mb-2 ${highlighted ? "text-teal-200" : "text-zinc-500"}`}>
+            <span className={`text-sm mb-2 ${highlighted ? "text-teal-200" : "text-white/60"}`}>
               /{period}
             </span>
           )}
         </div>
-        <p className={`text-sm leading-relaxed ${highlighted ? "text-teal-200" : "text-zinc-500"}`}>
+        <p className={`text-sm leading-relaxed ${highlighted ? "text-teal-200" : "text-white/60"}`}>
           {description}
         </p>
       </div>
@@ -73,7 +73,7 @@ export function PricingCard({
             <span className={`mt-0.5 text-sm ${highlighted ? "text-gold-200" : "text-teal"}`}>
               ✓
             </span>
-            <span className={`text-sm ${highlighted ? "text-white/90" : "text-zinc-700"}`}>
+            <span className={`text-sm ${highlighted ? "text-white/90" : "text-white/80"}`}>
               {feat}
             </span>
           </li>
@@ -85,7 +85,7 @@ export function PricingCard({
         className={`w-full py-3 rounded-xl text-sm font-semibold text-center transition-all duration-200 ${
           highlighted
             ? "bg-gold text-white hover:bg-gold-600 shadow-sm"
-            : "bg-teal-50 text-teal hover:bg-teal hover:text-white"
+            : "bg-white/10 text-teal hover:bg-teal hover:text-white"
         }`}
       >
         {cta}
