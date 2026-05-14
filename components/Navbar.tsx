@@ -1,38 +1,28 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
-import { motion, AnimatePresence } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
+import { BrandMarkIcon, ChevronRightIcon } from "@/components/ui/qalam-icons"
+
+const APP_ORIGIN = (process.env.NEXT_PUBLIC_APP_URL || "https://app.byqalam.com").replace(/\/$/, "")
 
 const NAV_LINKS = [
   { label: "Features", href: "/#features" },
   { label: "Pricing", href: "/pricing" },
   { label: "Free Tools", href: "/free-tools" },
-  { label: "Use Cases", href: "/#use-cases" },
+  { label: "For Teams", href: "/use-cases/agencies" },
   { label: "Blog", href: "/blog" },
+  { label: "About", href: "/about" },
 ]
 
 function QalamLogo() {
   return (
-    <Link href="/" className="flex items-center gap-2 select-none">
-      <div className="w-8 h-8 rounded-lg bg-teal flex items-center justify-center">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path
-            d="M3 13 C3 13 5 11 8 7 C11 3 13 2 13 2"
-            stroke="#C9871F"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-          <circle cx="13" cy="2" r="1.5" fill="#C9871F" />
-          <path
-            d="M3 13 L2 14.5"
-            stroke="#C9871F"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-          />
-        </svg>
+    <Link href="/" className="flex select-none items-center gap-2">
+      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal">
+        <BrandMarkIcon className="h-4 w-4 text-gold" />
       </div>
-      <span className="text-xl font-bold text-teal tracking-tight">Qalam</span>
+      <span className="text-xl font-bold tracking-tight text-teal">Qalam</span>
     </Link>
   )
 }
@@ -49,30 +39,28 @@ export function Navbar() {
   }, [])
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 flex flex-col">
-      {/* Announcement bar */}
+    <div className="fixed left-0 right-0 top-0 z-50 flex flex-col">
       <AnimatePresence>
         {announcementVisible && (
           <motion.div
             initial={{ height: 40, opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="overflow-hidden bg-teal"
+            className="overflow-hidden bg-[#1f5e57]"
           >
-            <div className="flex items-center justify-center gap-3 px-4 h-10 text-sm text-white font-medium">
-              <span>✨</span>
-              <span>
-                <strong>NEW —</strong> AI Voice Fingerprint is live
+            <div className="relative flex h-10 items-center justify-center gap-3 px-4 text-sm font-medium text-white">
+              <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-white/20 bg-white/10">
+                <BrandMarkIcon className="h-2.5 w-2.5 text-gold" />
               </span>
-              <Link
-                href="/free-tools"
-                className="underline underline-offset-2 text-gold-100 hover:text-white transition-colors"
-              >
-                Try it free →
+              <span>
+                <strong>New:</strong> agency workspaces with separate client voice memory
+              </span>
+              <Link href="/use-cases/agencies" className="inline-flex items-center gap-1 text-gold-100 underline underline-offset-2 transition-colors hover:text-white">
+                See setup <ChevronRightIcon className="h-3.5 w-3.5" />
               </Link>
               <button
                 onClick={() => setAnnouncementVisible(false)}
-                className="absolute right-4 text-white/60 hover:text-white transition-colors text-lg leading-none"
+                className="absolute right-4 text-lg leading-none text-white/60 transition-colors hover:text-white"
                 aria-label="Dismiss"
               >
                 ×
@@ -82,76 +70,51 @@ export function Navbar() {
         )}
       </AnimatePresence>
 
-      {/* Main nav */}
       <motion.nav
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
         className={`glass border-b transition-all duration-300 ${
-          scrolled
-            ? "border-white/10 shadow-[0_2px_20px_rgba(0,0,0,0.3)]"
-            : "border-transparent"
+          scrolled ? "border-zinc-200/90 shadow-[0_2px_24px_rgba(13,74,69,0.08)]" : "border-transparent"
         }`}
       >
-        <div className="max-w-[1200px] mx-auto px-6 flex items-center justify-between h-16">
+        <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-6">
           <QalamLogo />
 
-          {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden items-center gap-1 md:flex">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
-                className="px-3 py-2 text-sm font-medium text-white/70 hover:text-teal rounded-lg hover:bg-teal/10 transition-all duration-150"
+                className="rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 transition-all duration-150 hover:bg-teal/10 hover:text-teal"
               >
                 {link.label}
               </Link>
             ))}
           </div>
 
-          {/* Desktop CTAs */}
-          <div className="hidden md:flex items-center gap-3">
-            <Link
-              href="/login"
-              className="px-4 py-2 text-sm font-semibold text-teal hover:bg-teal/10 rounded-lg transition-colors"
-            >
+          <div className="hidden items-center gap-3 md:flex">
+            <Link href={`${APP_ORIGIN}/auth`} className="rounded-lg px-4 py-2 text-sm font-semibold text-teal transition-colors hover:bg-teal/10">
               Log In
             </Link>
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <Link
-                href="/signup"
-                className="px-4 py-2 text-sm font-semibold text-white bg-teal hover:bg-teal-600 rounded-lg transition-colors shadow-sm"
-              >
+              <Link href={`${APP_ORIGIN}/auth/sign-up`} className="rounded-lg bg-teal px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-teal-600">
                 Get Started Free
               </Link>
             </motion.div>
           </div>
 
-          {/* Mobile hamburger */}
           <button
-            className="md:hidden flex flex-col gap-1.5 p-2 rounded-lg hover:bg-white/10 transition-colors"
+            className="flex flex-col gap-1.5 rounded-lg p-2 transition-colors hover:bg-zinc-100 md:hidden"
             onClick={() => setMobileOpen((o) => !o)}
             aria-label="Toggle menu"
           >
-            <motion.span
-              animate={mobileOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-              transition={{ duration: 0.2 }}
-              className="block w-5 h-0.5 bg-white/80 rounded-full origin-center"
-            />
-            <motion.span
-              animate={mobileOpen ? { opacity: 0 } : { opacity: 1 }}
-              transition={{ duration: 0.15 }}
-              className="block w-5 h-0.5 bg-white/80 rounded-full"
-            />
-            <motion.span
-              animate={mobileOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-              transition={{ duration: 0.2 }}
-              className="block w-5 h-0.5 bg-white/80 rounded-full origin-center"
-            />
+            <motion.span animate={mobileOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }} transition={{ duration: 0.2 }} className="block h-0.5 w-5 origin-center rounded-full bg-zinc-700" />
+            <motion.span animate={mobileOpen ? { opacity: 0 } : { opacity: 1 }} transition={{ duration: 0.15 }} className="block h-0.5 w-5 rounded-full bg-zinc-700" />
+            <motion.span animate={mobileOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }} transition={{ duration: 0.2 }} className="block h-0.5 w-5 origin-center rounded-full bg-zinc-700" />
           </button>
         </div>
 
-        {/* Mobile menu */}
         <AnimatePresence>
           {mobileOpen && (
             <motion.div
@@ -159,32 +122,24 @@ export function Navbar() {
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.25, ease: "easeInOut" }}
-              className="overflow-hidden md:hidden border-t border-white/10"
+              className="overflow-hidden border-t border-zinc-200 md:hidden"
             >
-              <div className="px-6 py-4 flex flex-col gap-1">
+              <div className="flex flex-col gap-1 px-6 py-4">
                 {NAV_LINKS.map((link) => (
                   <Link
                     key={link.label}
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="px-3 py-2.5 text-sm font-medium text-white/70 hover:text-teal hover:bg-teal/10 rounded-lg transition-all"
+                    className="rounded-lg px-3 py-2.5 text-sm font-medium text-zinc-600 transition-all hover:bg-teal/10 hover:text-teal"
                   >
                     {link.label}
                   </Link>
                 ))}
-                <div className="mt-3 pt-3 border-t border-white/10 flex flex-col gap-2">
-                  <Link
-                    href="/login"
-                    onClick={() => setMobileOpen(false)}
-                    className="px-3 py-2.5 text-sm font-semibold text-teal hover:bg-teal/10 rounded-lg transition-colors text-center"
-                  >
+                <div className="mt-3 flex flex-col gap-2 border-t border-zinc-200 pt-3">
+                  <Link href={`${APP_ORIGIN}/auth`} onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2.5 text-center text-sm font-semibold text-teal transition-colors hover:bg-teal/10">
                     Log In
                   </Link>
-                  <Link
-                    href="/signup"
-                    onClick={() => setMobileOpen(false)}
-                    className="px-3 py-2.5 text-sm font-semibold text-white bg-teal hover:bg-teal-600 rounded-lg transition-colors text-center"
-                  >
+                  <Link href={`${APP_ORIGIN}/auth/sign-up`} onClick={() => setMobileOpen(false)} className="rounded-lg bg-teal px-3 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-teal-600">
                     Get Started Free
                   </Link>
                 </div>

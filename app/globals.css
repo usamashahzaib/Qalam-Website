@@ -20,8 +20,8 @@
 }
 
 @theme inline {
-  --font-jakarta: var(--font-jakarta-sans);
-  --font-cormorant: var(--font-cormorant-garamond);
+  --font-jakarta: var(--font-jakarta);
+  --font-cormorant: var(--font-cormorant);
   --color-background: #ffffff;
   --color-foreground: #0a0a0a;
 }
@@ -68,10 +68,15 @@ html {
   scroll-behavior: smooth;
 }
 
+:root {
+  --font-jakarta: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-cormorant: Georgia, "Times New Roman", serif;
+}
+
 body {
-  background: #030f0e;
-  color: #ffffff;
-  font-family: var(--font-jakarta-sans), system-ui, -apple-system, sans-serif;
+  background: #fafaf8;
+  color: #1a1a1a;
+  font-family: var(--font-jakarta);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -80,7 +85,7 @@ body {
 
 /* Glassmorphism nav */
 .glass {
-  background: rgba(5, 31, 28, 0.85);
+  background: rgba(250, 250, 248, 0.82);
   backdrop-filter: blur(18px) saturate(200%);
   -webkit-backdrop-filter: blur(18px) saturate(200%);
 }
@@ -88,8 +93,8 @@ body {
 /* Grid-line background pattern (80 px) */
 .grid-bg {
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    linear-gradient(rgba(13, 74, 69, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(13, 74, 69, 0.06) 1px, transparent 1px);
   background-size: 80px 80px;
 }
 
