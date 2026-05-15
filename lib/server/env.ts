@@ -42,3 +42,14 @@ export const requireSupabaseEnv = () => {
     throw new Error("supabase_env_missing")
   }
 }
+
+export const supportEnv = {
+  email: read("APP_SUPPORT_EMAIL") || "info@byqalam.com",
+  whatsapp: read("APP_SUPPORT_WHATSAPP") || "+923714156567",
+  whatsappUrl: (() => {
+    const raw = read("APP_SUPPORT_WHATSAPP") || "+923714156567"
+    return `https://wa.me/${raw.replace(/[^0-9]/g, "")}`
+  })(),
+}
+
+export const groqApiKey = read("GROQ_API_KEY")

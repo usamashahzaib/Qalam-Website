@@ -1,8 +1,10 @@
 import type { Metadata } from "next"
 import "./globals.css"
+import { ClerkProvider } from "@clerk/nextjs"
 import { NavWrapper } from "@/components/NavWrapper"
 import GridGlowBackground from "@/components/ui/grid-glow-background"
 import { ContentProtection } from "@/components/providers/ContentProtection"
+import { WhatsAppButton } from "@/components/WhatsAppButton"
 import { SITE_NAME, SITE_URL } from "@/lib/seo"
 
 const siteUrl = SITE_URL
@@ -145,21 +147,24 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(appSchema) }} />
-      </head>
-      <body className="flex min-h-screen flex-col antialiased">
-        <ContentProtection />
-        <GridGlowBackground
-          glowColors={["#b8e6c8", "#e8d5a8", "#7abf9e"]}
-          backgroundColor="#fafaf8"
-          gridColor="rgba(13,74,69,0.07)"
-          glowCount={12}
-        >
-          <NavWrapper>{children}</NavWrapper>
-        </GridGlowBackground>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <head>
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(appSchema) }} />
+        </head>
+        <body className="flex min-h-screen flex-col antialiased">
+          <ContentProtection />
+          <WhatsAppButton />
+          <GridGlowBackground
+            glowColors={["#b8e6c8", "#e8d5a8", "#7abf9e"]}
+            backgroundColor="#fafaf8"
+            gridColor="rgba(13,74,69,0.07)"
+            glowCount={12}
+          >
+            <NavWrapper>{children}</NavWrapper>
+          </GridGlowBackground>
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }

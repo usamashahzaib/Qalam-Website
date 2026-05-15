@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { AnimatePresence, motion } from "framer-motion"
+import { SignInButton, SignUpButton, UserButton, Show } from "@clerk/nextjs"
 import { BrandMarkIcon, ChevronRightIcon } from "@/components/ui/qalam-icons"
 
 const NAV_LINKS = [
@@ -92,14 +93,32 @@ export function Navbar() {
           </div>
 
           <div className="hidden items-center gap-3 md:flex">
-            <Link href={"/auth"} className="rounded-lg px-4 py-2 text-sm font-semibold text-teal transition-colors hover:bg-teal/10">
-              Log In
-            </Link>
-            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <Link href={"/auth/sign-up"} className="rounded-lg bg-teal px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-teal-600">
-                Get Started Free
+            <Show when="signed-out">
+              <SignInButton mode="modal">
+                <button className="rounded-lg px-4 py-2 text-sm font-semibold text-teal transition-colors hover:bg-teal/10">
+                  Log In
+                </button>
+              </SignInButton>
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                <SignUpButton mode="modal">
+                  <button className="rounded-lg bg-teal px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-teal-600">
+                    Get Started Free
+                  </button>
+                </SignUpButton>
+              </motion.div>
+            </Show>
+            <Show when="signed-in">
+              <Link href="/dashboard" className="rounded-lg px-4 py-2 text-sm font-semibold text-teal transition-colors hover:bg-teal/10">
+                Dashboard
               </Link>
-            </motion.div>
+              <UserButton
+                appearance={{
+                  elements: {
+                    avatarBox: "h-9 w-9",
+                  },
+                }}
+              />
+            </Show>
           </div>
 
           <button
@@ -134,12 +153,26 @@ export function Navbar() {
                   </Link>
                 ))}
                 <div className="mt-3 flex flex-col gap-2 border-t border-zinc-200 pt-3">
-                  <Link href={"/auth"} onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2.5 text-center text-sm font-semibold text-teal transition-colors hover:bg-teal/10">
-                    Log In
-                  </Link>
-                  <Link href={"/auth/sign-up"} onClick={() => setMobileOpen(false)} className="rounded-lg bg-teal px-3 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-teal-600">
-                    Get Started Free
-                  </Link>
+                  <Show when="signed-out">
+                    <SignInButton mode="modal">
+                      <button onClick={() => setMobileOpen(false)} className="w-full rounded-lg px-3 py-2.5 text-center text-sm font-semibold text-teal transition-colors hover:bg-teal/10">
+                        Log In
+                      </button>
+                    </SignInButton>
+                    <SignUpButton mode="modal">
+                      <button onClick={() => setMobileOpen(false)} className="w-full rounded-lg bg-teal px-3 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-teal-600">
+                        Get Started Free
+                      </button>
+                    </SignUpButton>
+                  </Show>
+                  <Show when="signed-in">
+                    <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2.5 text-center text-sm font-semibold text-teal transition-colors hover:bg-teal/10">
+                      Dashboard
+                    </Link>
+                    <div className="flex justify-center pt-1">
+                      <UserButton appearance={{ elements: { avatarBox: "h-9 w-9" } }} />
+                    </div>
+                  </Show>
                 </div>
               </div>
             </motion.div>
