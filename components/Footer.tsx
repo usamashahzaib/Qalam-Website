@@ -85,13 +85,11 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row">
-          <p className="text-sm text-white/35">(c) {new Date().getFullYear()} Qalam. All rights reserved.</p>
-          <div className="flex items-center gap-2 text-sm text-white/35">
-            <span>Domain:</span>
-            <span className="text-white/60">byqalam.com</span>
-            <span className="text-white/20">/</span>
-            <span>Product:</span>
-            <span className="text-white/60">Qalam</span>
+          <p className="text-sm text-white/35">© {new Date().getFullYear()} Qalam. All rights reserved.</p>
+          <div className="flex items-center gap-4 text-sm text-white/35">
+            <Link href="/privacy" className="transition-colors hover:text-white/60">Privacy</Link>
+            <Link href="/terms" className="transition-colors hover:text-white/60">Terms</Link>
+            <a href="mailto:hello@byqalam.com" className="transition-colors hover:text-white/60">hello@byqalam.com</a>
           </div>
         </div>
       </div>

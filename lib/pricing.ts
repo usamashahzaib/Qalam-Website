@@ -1,7 +1,3 @@
-const APP_ORIGIN = (
-  process.env.NEXT_PUBLIC_APP_URL || "https://app.byqalam.com"
-).replace(/\/$/, "")
-
 export interface PricingPlan {
   plan: string
   price: string
@@ -31,7 +27,7 @@ export const PLANS: PricingPlan[] = [
       "No Voice Profile (upgrade to train your voice)",
     ],
     cta: "Start Free →",
-    href: `${APP_ORIGIN}/auth/sign-up`,
+    href: "/auth/sign-up",
     highlighted: false,
   },
   {
@@ -50,11 +46,11 @@ export const PLANS: PricingPlan[] = [
       "Priority email support",
     ],
     cta: "Start Pro Trial →",
-    href: `${APP_ORIGIN}/auth/sign-up?plan=pro`,
+    href: "/auth/sign-up?plan=pro",
     highlighted: true,
     badge: "Most Popular",
     annualPrice: "$15",
-    annualHref: `${APP_ORIGIN}/auth/sign-up?plan=pro-annual`,
+    annualHref: "/auth/sign-up?plan=pro-annual",
     annualDescription: "Billed annually — save $48/year.",
   },
   {
@@ -73,10 +69,10 @@ export const PLANS: PricingPlan[] = [
       "Dedicated success manager",
     ],
     cta: "Start Team Trial →",
-    href: `${APP_ORIGIN}/auth/sign-up?plan=team`,
+    href: "/auth/sign-up?plan=team",
     highlighted: false,
     annualPrice: "$39",
-    annualHref: `${APP_ORIGIN}/auth/sign-up?plan=team-annual`,
+    annualHref: "/auth/sign-up?plan=team-annual",
     annualDescription: "Billed annually — save $120/year.",
   },
   {
@@ -94,11 +90,11 @@ export const PLANS: PricingPlan[] = [
       "Priority Slack support",
     ],
     cta: "Start Agency Trial →",
-    href: `${APP_ORIGIN}/auth/sign-up?plan=agency`,
+    href: "/auth/sign-up?plan=agency",
     highlighted: false,
     badge: "For Agencies",
     annualPrice: "$79",
-    annualHref: `${APP_ORIGIN}/auth/sign-up?plan=agency-annual`,
+    annualHref: "/auth/sign-up?plan=agency-annual",
     annualDescription: "Billed annually — save $240/year.",
   },
 ]
@@ -121,6 +117,6 @@ export const COMPARISON_ROWS: {
   { label: "Shared Content Library", free: "✗", pro: "✗", team: "✓", agency: "✓" },
   { label: "Client Workspaces", free: "✗", pro: "✗", team: "✗", agency: "Up to 15" },
   { label: "Client Approval Pipeline", free: "✗", pro: "✗", team: "✗", agency: "✓" },
-  { label: "Team Seats", free: "1", pro: "1", team: "5", agency: "15" },
+  { label: "Team Seats", free: "1", pro: "1", team: "5", agency: "5 + 15 workspaces" },
   { label: "Support", free: "Email", pro: "Priority email", team: "Dedicated Manager", agency: "Priority Slack" },
 ]

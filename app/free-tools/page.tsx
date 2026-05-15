@@ -1,7 +1,5 @@
-"use client"
-
+import type { Metadata } from "next"
 import Link from "next/link"
-import { motion } from "framer-motion"
 import { FadeUp } from "@/components/FadeUp"
 import {
   AnalyticsIcon,
@@ -11,6 +9,27 @@ import {
   MicroscopeIcon,
   ProfileIcon,
 } from "@/components/ui/qalam-icons"
+import { SITE_URL } from "@/lib/seo"
+
+export const metadata: Metadata = {
+  title: "Free LinkedIn Tools | Qalam",
+  description:
+    "Six free LinkedIn tools — hook generator, headline analyzer, profile optimizer, viral checker, and more. No account required. Instant results.",
+  alternates: { canonical: `${SITE_URL}/free-tools` },
+  openGraph: {
+    title: "Free LinkedIn Tools — Qalam",
+    description:
+      "Six focused tools to help you write better, profile stronger, and pressure-test ideas before they hit the feed. No sign-in required.",
+    url: `${SITE_URL}/free-tools`,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Free LinkedIn Tools — Qalam",
+    description:
+      "Hook generator, headline analyzer, profile optimizer, viral checker. No account required.",
+  },
+}
 
 const TOOLS = [
   {
@@ -67,8 +86,14 @@ export default function FreeToolsPage() {
   return (
     <div className="min-h-screen bg-zinc-50 pt-24">
       <section className="relative overflow-hidden border-b border-zinc-100 bg-white px-6 py-20">
-        <div className="pointer-events-none absolute right-0 top-0 h-[400px] w-[400px] rounded-full opacity-20" style={{ background: "radial-gradient(circle, rgba(13,74,69,0.2) 0%, transparent 70%)" }} />
-        <div className="pointer-events-none absolute -bottom-20 -left-10 h-[300px] w-[300px] rounded-full opacity-15" style={{ background: "radial-gradient(circle, rgba(201,135,31,0.3) 0%, transparent 70%)" }} />
+        <div
+          className="pointer-events-none absolute right-0 top-0 h-[400px] w-[400px] rounded-full opacity-20"
+          style={{ background: "radial-gradient(circle, rgba(13,74,69,0.2) 0%, transparent 70%)" }}
+        />
+        <div
+          className="pointer-events-none absolute -bottom-20 -left-10 h-[300px] w-[300px] rounded-full opacity-15"
+          style={{ background: "radial-gradient(circle, rgba(201,135,31,0.3) 0%, transparent 70%)" }}
+        />
 
         <div className="relative z-10 mx-auto max-w-[1200px]">
           <FadeUp>
@@ -84,15 +109,21 @@ export default function FreeToolsPage() {
               <span className="text-gold gold-underline">workflow tools</span>
             </h1>
             <p className="mb-8 max-w-2xl font-cormorant text-2xl italic leading-relaxed text-zinc-500">
-              Six focused tools to help you write better, profile stronger, and pressure-test ideas before they hit the feed.
+              Six focused tools to help you write better, profile stronger, and
+              pressure-test ideas before they hit the feed.
             </p>
             <div className="flex flex-wrap gap-3">
-              {["No sign-up needed", "Instant results", "Real routes", "Zero cost"].map((tag) => (
-                <span key={tag} className="flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-600">
-                  <CheckIcon className="h-4 w-4 text-teal" />
-                  {tag}
-                </span>
-              ))}
+              {["No sign-up needed", "Instant results", "Real routes", "Zero cost"].map(
+                (tag) => (
+                  <span
+                    key={tag}
+                    className="flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-600"
+                  >
+                    <CheckIcon className="h-4 w-4 text-teal" />
+                    {tag}
+                  </span>
+                )
+              )}
             </div>
           </FadeUp>
         </div>
@@ -105,25 +136,29 @@ export default function FreeToolsPage() {
               const Icon = tool.icon
               return (
                 <FadeUp key={tool.title} delay={i * 0.08}>
-                  <motion.div
-                    whileHover={{ y: -6, boxShadow: "0 20px 48px rgba(13,74,69,0.12)", borderColor: "#C9871F50", transition: { duration: 0.22 } }}
-                    className="flex h-full flex-col rounded-2xl border border-zinc-100 bg-white p-7 shadow-sm"
-                  >
+                  <div className="group flex h-full flex-col rounded-2xl border border-zinc-100 bg-white p-7 shadow-sm transition-all duration-[220ms] hover:-translate-y-1.5 hover:border-gold/30 hover:shadow-[0_20px_48px_rgba(13,74,69,0.12)]">
                     <div className="mb-5 flex items-start justify-between">
-                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-teal-50 text-teal">
+                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-teal-50 text-teal transition-colors group-hover:bg-teal group-hover:text-white">
                         <Icon className="h-6 w-6" />
                       </div>
-                      {tool.badge && <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${tool.badgeColor}`}>{tool.badge}</span>}
+                      {tool.badge && (
+                        <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${tool.badgeColor}`}>
+                          {tool.badge}
+                        </span>
+                      )}
                     </div>
 
                     <h3 className="mb-2 text-xl font-bold text-zinc-900">{tool.title}</h3>
                     <p className="mb-6 flex-1 text-sm leading-relaxed text-zinc-500">{tool.desc}</p>
 
-                    <Link href={tool.href} className="group flex items-center justify-between rounded-xl bg-teal-50 px-5 py-3 text-sm font-semibold text-teal transition-all hover:bg-teal hover:text-white">
+                    <Link
+                      href={tool.href}
+                      className="group/btn flex items-center justify-between rounded-xl bg-teal-50 px-5 py-3 text-sm font-semibold text-teal transition-all hover:bg-teal hover:text-white"
+                    >
                       Try Free
-                      <span className="text-base transition-transform group-hover:translate-x-1">→</span>
+                      <span className="text-base transition-transform group-hover/btn:translate-x-1">→</span>
                     </Link>
-                  </motion.div>
+                  </div>
                 </FadeUp>
               )
             })}
@@ -135,21 +170,34 @@ export default function FreeToolsPage() {
         <div className="mx-auto max-w-[1200px]">
           <FadeUp>
             <div className="relative overflow-hidden rounded-2xl bg-teal px-10 py-16 text-center">
-              <div className="pointer-events-none absolute left-[-10%] top-[-50%] h-[500px] w-[500px] rounded-full opacity-20 mesh-blob" style={{ background: "radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)", ["--dur" as string]: "16s" }} />
-              <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-teal-200">Want the full system?</p>
+              <div
+                className="pointer-events-none absolute left-[-10%] top-[-50%] h-[500px] w-[500px] rounded-full opacity-20 mesh-blob"
+                style={{
+                  background: "radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)",
+                  ["--dur" as string]: "16s",
+                }}
+              />
+              <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-teal-200">
+                Want the full system?
+              </p>
               <h2 className="mb-4 text-4xl font-extrabold text-white">
                 Unlock the full <span className="text-gold">Qalam platform</span>
               </h2>
               <p className="mx-auto mb-8 max-w-lg font-cormorant text-xl italic text-white/70">
-                Unlimited posts, trained Voice Profile, scheduler, and performance review. Pro starts at $19 per month.
+                Unlimited posts, trained Voice Profile, scheduler, and performance
+                review. Pro starts at $19 per month.
               </p>
               <div className="flex flex-col justify-center gap-4 sm:flex-row">
-                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-                  <Link href="https://app.byqalam.com/auth/sign-up?plan=pro" className="inline-flex items-center gap-2 rounded-xl bg-gold px-8 py-4 text-base font-bold text-white shadow-lg transition-colors hover:bg-gold-600">
-                    Start 7-Day Free Trial
-                  </Link>
-                </motion.div>
-                <Link href="/pricing" className="inline-flex items-center gap-2 rounded-xl border-2 border-white/25 px-8 py-4 text-base font-semibold text-white transition-colors hover:bg-white/10">
+                <Link
+                  href="/auth/sign-up?plan=pro"
+                  className="inline-flex items-center gap-2 rounded-xl bg-gold px-8 py-4 text-base font-bold text-white shadow-lg transition-colors hover:bg-gold-600"
+                >
+                  Start 7-Day Free Trial
+                </Link>
+                <Link
+                  href="/pricing"
+                  className="inline-flex items-center gap-2 rounded-xl border-2 border-white/25 px-8 py-4 text-base font-semibold text-white transition-colors hover:bg-white/10"
+                >
                   Compare Plans
                 </Link>
               </div>

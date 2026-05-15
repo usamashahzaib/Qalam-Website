@@ -166,3 +166,44 @@ body {
   box-shadow: 0 20px 40px rgba(13, 74, 69, 0.12);
   border-color: #C9871F;
 }
+
+/* ─── Content protection ──────────────────────────────────────── */
+
+/* Prevent casual drag-and-drop theft of images */
+img {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+/* Explicit protection class — apply to premium/proprietary UI blocks */
+[data-protect] {
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+[data-protect] a,
+[data-protect] button {
+  pointer-events: auto;
+}
+
+/* Print watermark — visible on every printed page and print-to-PDF */
+@media print {
+  body::before {
+    content: "© Qalam (byqalam.com) — Confidential. Unauthorized reproduction prohibited.";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-35deg);
+    font-size: 2rem;
+    font-weight: 700;
+    color: rgba(13, 74, 69, 0.12);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 9999;
+  }
+  /* Also print a header/footer on every page */
+  @page {
+    margin-top: 1.5cm;
+    margin-bottom: 1.5cm;
+  }
+}

@@ -1,14 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence, motion, useInView } from "framer-motion"
 import { FadeUp } from "@/components/FadeUp"
 import { PricingCard } from "@/components/PricingCard"
 import { TestimonialCard } from "@/components/TestimonialCard"
 import {
   AnalyticsIcon,
-  ArchiveIcon,
   BrainIcon,
   CalendarIcon,
   CheckIcon,
@@ -23,7 +22,24 @@ import {
 } from "@/components/ui/qalam-icons"
 import { PLANS } from "@/lib/pricing"
 
-const APP_ORIGIN = (process.env.NEXT_PUBLIC_APP_URL || "https://app.byqalam.com").replace(/\/$/, "")
+function useCountUp(end: number, duration = 1400) {
+  const [count, setCount] = useState(0)
+  const ref = useRef<HTMLSpanElement>(null)
+  const inView = useInView(ref, { once: true })
+  useEffect(() => {
+    if (!inView) return
+    let startTime: number
+    const step = (ts: number) => {
+      if (!startTime) startTime = ts
+      const progress = Math.min((ts - startTime) / duration, 1)
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setCount(Math.floor(eased * end))
+      if (progress < 1) requestAnimationFrame(step)
+    }
+    requestAnimationFrame(step)
+  }, [inView, end, duration])
+  return { count, ref }
+}
 
 const NICHES = [
   "Founders",
@@ -119,16 +135,16 @@ const TESTIMONIALS = [
 
 const FAQ_ITEMS = [
   {
-    q: "What is Qalam?",
-    a: "Qalam is an AI-powered LinkedIn publishing system built around voice memory, post history, and workflow continuity instead of one-off text generation.",
+    q: "How does the Voice Profile actually learn my writing?",
+    a: "You provide real LinkedIn posts you have written. Qalam extracts tone, structure, and vocabulary patterns from those examples. Every draft you approve and every edit you make then feeds future starting points — so the system gets more specific the longer you use it.",
   },
   {
-    q: "How does the Voice Profile work?",
-    a: "You provide real writing examples. Qalam uses those examples, plus later edits and approvals, to move future drafts closer to your tone and structure.",
-  },
-  {
-    q: "What happens if I pause or cancel?",
+    q: "What happens to my archive if I pause or cancel?",
     a: "Your archive and trained voice data stay attached to the account. Access changes by plan, but the memory layer is preserved.",
+  },
+  {
+    q: "How is this different from just using ChatGPT?",
+    a: "ChatGPT resets every session. Qalam keeps your approved examples, editing history, hook archive, and post outcomes in one system — so each session starts closer to your actual voice instead of from scratch.",
   },
   {
     q: "Who is Team for?",
@@ -219,8 +235,13 @@ function ProductMockup() {
 
       <motion.div
         initial={{ opacity: 0, scale: 0.8, x: 20 }}
-        animate={{ opacity: 1, scale: 1, x: 0 }}
-        transition={{ duration: 0.5, delay: 0.9 }}
+        animate={{ opacity: 1, scale: 1, x: 0, y: [0, -5, 0] }}
+        transition={{
+          opacity: { duration: 0.5, delay: 0.9 },
+          scale: { duration: 0.5, delay: 0.9 },
+          x: { duration: 0.5, delay: 0.9 },
+          y: { duration: 3.5, delay: 1.4, repeat: Infinity, ease: "easeInOut" },
+        }}
         className="absolute -right-4 top-8 rounded-2xl border border-zinc-100 bg-white px-4 py-3 shadow-xl"
       >
         <p className="text-[10px] font-medium text-zinc-500">Impressions this month</p>
@@ -231,23 +252,47 @@ function ProductMockup() {
   )
 }
 
+function VoiceStatCard({ label, end, suffix, title, desc, index, showConnector }: {
+  label: string; end: number; suffix: string; title: string; desc: string; index: number; showConnector: boolean
+}) {
+  const { count, ref } = useCountUp(end, 1200 + index * 200)
+  return (
+    <FadeUp delay={index * 0.12}>
+      <motion.div whileHover={{ y: -4, borderColor: "#C9871F40", transition: { duration: 0.2 } }} className="rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm">
+        <div className="mb-6 flex items-center gap-3">
+          <span className="rounded-full border border-teal/20 bg-teal/10 px-3 py-1 text-xs font-bold uppercase tracking-widest text-teal">{label}</span>
+          {showConnector && <div className="h-px flex-1 bg-gradient-to-r from-teal/20 to-transparent" />}
+        </div>
+        <p className="mb-2 text-3xl font-bold text-gold">
+          <span ref={ref}>{count}</span>{suffix}
+        </p>
+        <h3 className="mb-3 text-lg font-bold text-zinc-900">{title}</h3>
+        <p className="text-sm leading-relaxed text-zinc-600">{desc}</p>
+      </motion.div>
+    </FadeUp>
+  )
+}
+
 function VoiceMemorySection() {
   const stages = [
     {
       label: "Day 1",
-      stat: "5 posts",
+      end: 5,
+      suffix: " posts",
       title: "Voice Setup",
       desc: "Start with real source posts. Qalam extracts tone, structure, and vocabulary patterns to create the initial profile.",
     },
     {
       label: "Week 2",
-      stat: "20+ posts",
+      end: 20,
+      suffix: "+ posts",
       title: "Active Training",
       desc: "Every approved draft and edit creates better future starting points instead of resetting the system each session.",
     },
     {
       label: "Month 2+",
-      stat: "100+ posts",
+      end: 100,
+      suffix: "+ posts",
       title: "Compounding Memory",
       desc: "Your voice profile, archive, hooks, and outcomes become harder to replace because the system keeps their context attached.",
     },
@@ -268,17 +313,16 @@ function VoiceMemorySection() {
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {stages.map((stage, i) => (
-            <FadeUp key={stage.label} delay={i * 0.1}>
-              <motion.div whileHover={{ y: -4, borderColor: "#C9871F40", transition: { duration: 0.2 } }} className="rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm">
-                <div className="mb-6 flex items-center gap-3">
-                  <span className="rounded-full border border-teal/20 bg-teal/10 px-3 py-1 text-xs font-bold uppercase tracking-widest text-teal">{stage.label}</span>
-                  {i < 2 && <div className="h-px flex-1 bg-gradient-to-r from-teal/20 to-transparent" />}
-                </div>
-                <p className="mb-2 text-3xl font-bold text-gold">{stage.stat}</p>
-                <h3 className="mb-3 text-lg font-bold text-zinc-900">{stage.title}</h3>
-                <p className="text-sm leading-relaxed text-zinc-600">{stage.desc}</p>
-              </motion.div>
-            </FadeUp>
+            <VoiceStatCard
+              key={stage.label}
+              label={stage.label}
+              end={stage.end}
+              suffix={stage.suffix}
+              title={stage.title}
+              desc={stage.desc}
+              index={i}
+              showConnector={i < 2}
+            />
           ))}
         </div>
       </div>
@@ -331,12 +375,38 @@ function FAQSection() {
   )
 }
 
+const homepageFaqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQ_ITEMS.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
+}
+
+const homepageHowToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "How Qalam works: from first post to trained voice",
+  description: "A three-step workflow for building a voice-aware LinkedIn publishing system that compounds with every post.",
+  step: HOW_IT_WORKS.map((step, i) => ({
+    "@type": "HowToStep",
+    position: i + 1,
+    name: step.title,
+    text: step.desc,
+  })),
+}
+
 export default function HomePage() {
   const homepagePlans = PLANS.slice(0, 3)
   const agencyPlan = PLANS[3]
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homepageFaqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homepageHowToSchema) }} />
+
       <section className="relative flex min-h-screen items-center overflow-hidden border-b border-zinc-200 bg-[radial-gradient(circle_at_12%_18%,rgba(13,74,69,0.08),transparent_20%),radial-gradient(circle_at_84%_16%,rgba(201,135,31,0.12),transparent_18%),radial-gradient(circle_at_78%_76%,rgba(13,74,69,0.06),transparent_20%),linear-gradient(to_bottom,#fcfcfa,#f6f5f1)] pb-16 pt-28">
         <div className="absolute inset-0 opacity-70" style={{ backgroundImage: "linear-gradient(rgba(13,74,69,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(13,74,69,0.06) 1px, transparent 1px)", backgroundSize: "54px 54px" }} />
         <div className="relative z-10 mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-12 px-6 lg:grid-cols-2">
@@ -344,7 +414,7 @@ export default function HomePage() {
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: "easeOut" }}>
                 <span className="chip mb-6 inline-flex border-teal/20 bg-white/80 text-teal shadow-sm backdrop-blur">
                   <span className="h-2 w-2 rounded-full bg-gold animate-pulse" />
-                  Voice Profile trains with every approved post
+                  Voice Profile unlocks on Pro — trains with every post
                 </span>
               </motion.div>
 
@@ -362,7 +432,7 @@ export default function HomePage() {
 
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, ease: "easeOut", delay: 0.3 }} className="mb-10 flex flex-col gap-3 sm:flex-row">
                 <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                  <Link href={`${APP_ORIGIN}/auth/sign-up`} className="pulse-gold inline-flex items-center gap-2 rounded-xl bg-teal px-7 py-4 text-base font-semibold text-white shadow-[0_4px_24px_rgba(13,74,69,0.35)] transition-colors hover:bg-teal-600">
+                  <Link href={"/auth/sign-up"} className="pulse-gold inline-flex items-center gap-2 rounded-xl bg-teal px-7 py-4 text-base font-semibold text-white shadow-[0_4px_24px_rgba(13,74,69,0.35)] transition-colors hover:bg-teal-600">
                     Start Writing Free
                   </Link>
                 </motion.div>
@@ -374,7 +444,7 @@ export default function HomePage() {
               </motion.div>
 
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.45 }} className="flex flex-wrap items-center gap-x-5 gap-y-2">
-                {["No credit card required", "Real archive retention", "Built for serious LinkedIn publishing"].map((item) => (
+                {["No credit card required", "Drafts and edits stay in your archive", "Trained on your real posts, not generic prompts"].map((item) => (
                   <span key={item} className="flex items-center gap-2 text-sm text-zinc-600">
                     <CheckIcon className="h-4 w-4 text-gold" />
                     {item}
@@ -401,6 +471,14 @@ export default function HomePage() {
               </span>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="bg-white px-6 py-10">
+        <div className="mx-auto max-w-[760px] text-center">
+          <p className="text-base leading-relaxed text-zinc-500">
+            <strong className="font-semibold text-zinc-800">ByQalam</strong> is an AI LinkedIn writing system that learns your voice from real posts and edits. Unlike session-reset generators, it keeps approved drafts, outcomes, and hook archives in one place — so each session starts closer to your actual writing instead of from scratch. The platform includes voice profile training, a content archive, hook intelligence, post scheduling, and client workspaces for agencies and marketing teams.
+          </p>
         </div>
       </section>
 
@@ -448,7 +526,14 @@ export default function HomePage() {
           </FadeUp>
 
           <div className="relative grid grid-cols-1 gap-8 md:grid-cols-3">
-            <div className="absolute left-[calc(33%+24px)] right-[calc(33%+24px)] top-12 hidden h-px bg-gradient-to-r from-teal-200 via-gold/40 to-teal-200 md:block" />
+            <motion.div
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+              style={{ originX: 0 }}
+              className="absolute left-[calc(33%+24px)] right-[calc(33%+24px)] top-12 hidden h-px bg-gradient-to-r from-teal-200 via-gold/40 to-teal-200 md:block"
+            />
             {HOW_IT_WORKS.map((step, i) => {
               const Icon = step.icon
               return (
@@ -540,7 +625,7 @@ export default function HomePage() {
           </p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-              <Link href={`${APP_ORIGIN}/auth/sign-up`} className="inline-flex items-center gap-2 rounded-xl bg-gold px-8 py-4 text-lg font-bold text-white shadow-lg transition-colors hover:bg-gold-600">
+              <Link href={"/auth/sign-up"} className="inline-flex items-center gap-2 rounded-xl bg-gold px-8 py-4 text-lg font-bold text-white shadow-lg transition-colors hover:bg-gold-600">
                 Start Writing Free
               </Link>
             </motion.div>
@@ -548,7 +633,7 @@ export default function HomePage() {
               Compare Plans
             </Link>
           </div>
-          <p className="mt-5 text-sm text-white/62">No credit card required. Voice Profile training starts on paid plans.</p>
+          <p className="mt-5 text-sm text-white/62">No credit card required. Pro plan includes a 7-day free trial.</p>
         </FadeUp>
       </section>
     </>

@@ -5,8 +5,6 @@ import Link from "next/link"
 import { AnimatePresence, motion } from "framer-motion"
 import { BrandMarkIcon, ChevronRightIcon } from "@/components/ui/qalam-icons"
 
-const APP_ORIGIN = (process.env.NEXT_PUBLIC_APP_URL || "https://app.byqalam.com").replace(/\/$/, "")
-
 const NAV_LINKS = [
   { label: "Features", href: "/#features" },
   { label: "Pricing", href: "/pricing" },
@@ -94,11 +92,11 @@ export function Navbar() {
           </div>
 
           <div className="hidden items-center gap-3 md:flex">
-            <Link href={`${APP_ORIGIN}/auth`} className="rounded-lg px-4 py-2 text-sm font-semibold text-teal transition-colors hover:bg-teal/10">
+            <Link href={"/auth"} className="rounded-lg px-4 py-2 text-sm font-semibold text-teal transition-colors hover:bg-teal/10">
               Log In
             </Link>
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <Link href={`${APP_ORIGIN}/auth/sign-up`} className="rounded-lg bg-teal px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-teal-600">
+              <Link href={"/auth/sign-up"} className="rounded-lg bg-teal px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-teal-600">
                 Get Started Free
               </Link>
             </motion.div>
@@ -136,10 +134,10 @@ export function Navbar() {
                   </Link>
                 ))}
                 <div className="mt-3 flex flex-col gap-2 border-t border-zinc-200 pt-3">
-                  <Link href={`${APP_ORIGIN}/auth`} onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2.5 text-center text-sm font-semibold text-teal transition-colors hover:bg-teal/10">
+                  <Link href={"/auth"} onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2.5 text-center text-sm font-semibold text-teal transition-colors hover:bg-teal/10">
                     Log In
                   </Link>
-                  <Link href={`${APP_ORIGIN}/auth/sign-up`} onClick={() => setMobileOpen(false)} className="rounded-lg bg-teal px-3 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-teal-600">
+                  <Link href={"/auth/sign-up"} onClick={() => setMobileOpen(false)} className="rounded-lg bg-teal px-3 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-teal-600">
                     Get Started Free
                   </Link>
                 </div>

@@ -4,7 +4,21 @@ import { usePathname } from "next/navigation"
 import { Navbar } from "./Navbar"
 import { Footer } from "./Footer"
 
-const APP_ROUTES = ["/dashboard", "/write"]
+const APP_ROUTES = [
+  "/dashboard",
+  "/write",
+  "/writer",
+  "/calendar",
+  "/library",
+  "/analytics",
+  "/voice",
+  "/agency",
+  "/competitors",
+  "/settings",
+  "/auth",
+  "/login",
+  "/signup",
+]
 
 export function NavWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()

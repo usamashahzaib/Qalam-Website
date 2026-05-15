@@ -1,70 +1,105 @@
-"use client"
-
+import type { Metadata } from "next"
 import Link from "next/link"
 import { FadeUp } from "@/components/FadeUp"
+import { SITE_URL } from "@/lib/seo"
+
+export const metadata: Metadata = {
+  title: "Blog | Qalam",
+  description:
+    "Product thinking, workflow notes, and operating principles behind Qalam — the AI LinkedIn publishing system built for serious professionals.",
+  alternates: { canonical: `${SITE_URL}/blog` },
+  openGraph: {
+    title: "Blog — Qalam",
+    description:
+      "Product thinking, workflow notes, and operating principles behind Qalam.",
+    url: `${SITE_URL}/blog`,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog — Qalam",
+    description: "Product thinking and operating principles behind Qalam.",
+  },
+}
 
 const POSTS = [
   {
     title: "How to train an AI writing system without losing your voice",
     desc: "A practical breakdown of what source material matters, what to avoid, and how edits become training data.",
     tag: "Voice",
+    readTime: "6 min read",
   },
   {
     title: "Why post history is a better moat than another prompt template",
     desc: "A product argument for saving drafts, versions, approvals, and outcomes instead of shipping more surface-level generation.",
     tag: "Product",
+    readTime: "8 min read",
   },
   {
     title: "What agencies actually need from a content workflow",
     desc: "Separate client memory, clear approvals, shared assets, and less revision churn.",
     tag: "Agency",
+    readTime: "5 min read",
   },
 ]
 
 export default function BlogPage() {
   return (
-    <div className="pt-24 min-h-screen bg-teal-900">
-      <section className="py-20 px-6">
-        <div className="max-w-[920px] mx-auto text-center">
+    <div className="min-h-screen bg-zinc-50 pt-24">
+      <section className="border-b border-zinc-100 bg-white px-6 py-20">
+        <div className="mx-auto max-w-[920px] text-center">
           <FadeUp>
-            <span className="chip border-white/20 text-white/70 bg-white/5 mb-6 inline-flex">
+            <span className="chip mb-6 inline-flex border-teal/30 bg-teal-50 text-teal">
               Journal
             </span>
-            <h1 className="text-5xl sm:text-6xl font-extrabold text-white mb-5">
+            <h1 className="mb-5 text-5xl font-extrabold text-zinc-900 sm:text-6xl">
               Notes on publishing systems,
               <span className="text-gold gold-underline"> voice, and workflow.</span>
             </h1>
-            <p className="text-lg text-white/55 leading-relaxed max-w-2xl mx-auto">
-              This section is intentionally lightweight for now. It holds product thinking, workflow
-              notes, and operating principles behind Qalam.
+            <p className="mx-auto max-w-2xl text-lg leading-relaxed text-zinc-500">
+              Product thinking, workflow notes, and operating principles behind
+              Qalam. First articles are in progress.
             </p>
           </FadeUp>
         </div>
       </section>
 
-      <section className="px-6 pb-24">
-        <div className="max-w-[1100px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+      <section className="px-6 py-20">
+        <div className="mx-auto max-w-[1100px] grid grid-cols-1 gap-6 md:grid-cols-3">
           {POSTS.map((post, i) => (
             <FadeUp key={post.title} delay={i * 0.08}>
-              <article className="bg-white/5 border border-white/10 rounded-2xl p-7 h-full">
-                <span className="inline-flex text-xs font-semibold px-3 py-1 rounded-full border border-gold/20 text-gold bg-gold/5 mb-5">
-                  {post.tag}
-                </span>
-                <h2 className="text-xl font-bold text-white leading-snug mb-3">{post.title}</h2>
-                <p className="text-white/50 text-sm leading-relaxed">{post.desc}</p>
+              <article className="flex h-full flex-col rounded-2xl border border-zinc-200 bg-white p-7 shadow-sm">
+                <div className="mb-5 flex items-center gap-2">
+                  <span className="inline-flex rounded-full border border-teal/20 bg-teal-50 px-3 py-1 text-xs font-semibold text-teal">
+                    {post.tag}
+                  </span>
+                  <span className="inline-flex rounded-full border border-zinc-200 px-2.5 py-1 text-xs font-medium text-zinc-400">
+                    Coming soon
+                  </span>
+                </div>
+                <h2 className="mb-3 text-xl font-bold leading-snug text-zinc-800">
+                  {post.title}
+                </h2>
+                <p className="flex-1 text-sm leading-relaxed text-zinc-500">
+                  {post.desc}
+                </p>
+                <p className="mt-4 text-xs text-zinc-400">{post.readTime}</p>
               </article>
             </FadeUp>
           ))}
         </div>
 
-        <FadeUp className="max-w-[920px] mx-auto mt-12">
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
-            <p className="text-white/60 mb-5">
-              Want product updates instead of essays? The changelog is the faster source of truth.
+        <FadeUp className="mx-auto mt-12 max-w-[920px]">
+          <div className="rounded-2xl border border-zinc-200 bg-white p-8 text-center shadow-sm">
+            <h3 className="mb-2 text-lg font-bold text-zinc-900">
+              Want product updates instead of essays?
+            </h3>
+            <p className="mb-5 text-sm text-zinc-500">
+              The changelog is the faster source of truth.
             </p>
             <Link
               href="/changelog"
-              className="inline-flex items-center justify-center px-6 py-3 bg-teal text-white font-semibold rounded-xl hover:bg-teal-600 transition-colors"
+              className="inline-flex items-center justify-center rounded-xl bg-teal px-6 py-3 font-semibold text-white transition-colors hover:bg-teal-600"
             >
               View Changelog
             </Link>

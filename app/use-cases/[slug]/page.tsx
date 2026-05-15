@@ -3,6 +3,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { FadeUp } from "@/components/FadeUp"
 import { USE_CASE_PAGES } from "@/lib/site-content"
+import { SITE_URL } from "@/lib/seo"
 
 type Params = { slug: keyof typeof USE_CASE_PAGES }
 
@@ -20,7 +21,18 @@ export default function UseCaseDetailPage({ params }: { params: Params }) {
   const page = USE_CASE_PAGES[params.slug]
   if (!page) notFound()
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: page.title,
+    description: page.summary,
+    publisher: { "@type": "Organization", name: "Qalam", url: SITE_URL },
+    mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE_URL}/use-cases/${params.slug}` },
+  }
+
   return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
     <div className="pt-24 min-h-screen bg-zinc-50">
       <section className="border-b border-zinc-100 bg-white px-6 py-20">
         <div className="mx-auto max-w-[900px]">
@@ -73,5 +85,6 @@ export default function UseCaseDetailPage({ params }: { params: Params }) {
         </div>
       </section>
     </div>
+    </>
   )
 }

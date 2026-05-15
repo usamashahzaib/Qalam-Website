@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import "./globals.css"
 import { NavWrapper } from "@/components/NavWrapper"
 import GridGlowBackground from "@/components/ui/grid-glow-background"
+import { ContentProtection } from "@/components/providers/ContentProtection"
 import { SITE_NAME, SITE_URL } from "@/lib/seo"
 
 const siteUrl = SITE_URL
@@ -139,44 +140,6 @@ const appSchema = {
   ],
 }
 
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "What is Qalam?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Qalam is an AI-powered LinkedIn content platform that helps creators, founders, and teams draft, archive, and improve professional content in their own voice.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "How does the Voice Profile work?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "You provide real LinkedIn posts and examples. Qalam uses those examples, plus later edits and approvals, to move future drafts closer to your tone and structure.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What happens to my Voice Profile if I cancel?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Your Voice Profile and post archive stay attached to the account. Access changes by plan, but the memory layer is preserved.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Does Qalam work for any LinkedIn niche?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Qalam performs best when the writer brings real source material from their own audience and niche instead of relying on generic prompts.",
-      },
-    },
-  ],
-}
 
 export default function RootLayout({
   children,
@@ -185,9 +148,9 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(appSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       </head>
       <body className="flex min-h-screen flex-col antialiased">
+        <ContentProtection />
         <GridGlowBackground
           glowColors={["#b8e6c8", "#e8d5a8", "#7abf9e"]}
           backgroundColor="#fafaf8"

@@ -1,15 +1,44 @@
 import type { MetadataRoute } from "next"
-import { SITE_URL } from "@/lib/seo"
+
+const PRIVATE_ROUTES = ["/api/", "/dashboard", "/write", "/auth", "/auth/sign-up", "/login", "/signup"]
+
+// Scrapers and data-harvesting bots — explicitly disallowed
+const DISALLOWED_SCRAPERS = [
+  "SemrushBot",
+  "AhrefsBot",
+  "MJ12bot",
+  "DotBot",
+  "BLEXBot",
+  "DataForSeoBot",
+  "Bytespider",
+  "PetalBot",
+  "YandexBot",
+  "Sogou",
+  "ia_archiver",
+  "HTTrack",
+  "wget",
+  "curl",
+]
 
 export default function robots(): MetadataRoute.Robots {
-  const base = SITE_URL
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-      disallow: ["/api/", "/dashboard", "/write", "/login", "/signup"],
-    },
-    host: base,
-    sitemap: `${base}/sitemap.xml`,
+    rules: [
+      // AI answer engines — allowed everywhere public (LLMO / AEO strategy)
+      { userAgent: "GPTBot", allow: "/" },
+      { userAgent: "PerplexityBot", allow: "/" },
+      { userAgent: "ClaudeBot", allow: "/" },
+      { userAgent: "Google-Extended", allow: "/" },
+      { userAgent: "anthropic-ai", allow: "/" },
+      { userAgent: "Applebot-Extended", allow: "/" },
+      { userAgent: "cohere-ai", allow: "/" },
+      // SEO scrapers and data harvesters — disallowed entirely
+      ...DISALLOWED_SCRAPERS.map((userAgent) => ({
+        userAgent,
+        disallow: ["/"],
+      })),
+      // All other crawlers — public pages only, private routes blocked
+      { userAgent: "*", allow: "/", disallow: PRIVATE_ROUTES },
+    ],
+    sitemap: "https://byqalam.com/sitemap.xml",
   }
 }

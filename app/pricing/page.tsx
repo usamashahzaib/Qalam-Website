@@ -1,168 +1,74 @@
-"use client"
+import type { Metadata } from "next"
+import { PricingPageContent } from "@/components/PricingPageContent"
+import { SITE_URL } from "@/lib/seo"
 
-import { useState } from "react"
-import Link from "next/link"
-import { AnimatePresence, motion } from "framer-motion"
-import { FadeUp } from "@/components/FadeUp"
-import { PricingCard } from "@/components/PricingCard"
-import { ArchiveIcon, ShieldIcon, VoiceIcon } from "@/components/ui/qalam-icons"
-import { PLANS, COMPARISON_ROWS } from "@/lib/pricing"
+export const metadata: Metadata = {
+  title: "Pricing | Qalam",
+  description:
+    "Qalam pricing — Free forever, Pro at $19/mo, Team at $49/mo, Agency at $99/mo. All paid plans include a 7-day free trial. No credit card required to start.",
+  alternates: { canonical: `${SITE_URL}/pricing` },
+  openGraph: {
+    title: "Pricing — Qalam",
+    description:
+      "Free forever, Pro at $19/month, Team at $49/month, Agency at $99/month. 7-day free trial on all paid plans.",
+    url: `${SITE_URL}/pricing`,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Pricing — Qalam",
+    description:
+      "Free, Pro ($19/mo), Team ($49/mo), Agency ($99/mo). 7-day free trial on all paid plans.",
+  },
+}
+
+const pricingFaqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Is there a free plan?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. The Free plan gives you 5 AI post drafts per week. No credit card is required.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How much does Qalam cost?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Pro is $19/month (or $15/month billed annually). Team is $49/month for 5 seats. Agency is $99/month with 15 client workspaces.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is there a free trial for paid plans?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. All paid plans — Pro, Team, and Agency — include a 7-day free trial.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I cancel anytime?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Monthly plans cancel at the end of the billing period. Your voice data, archive, and post history remain on the account.",
+      },
+    },
+  ],
+}
 
 export default function PricingPage() {
-  const [billing, setBilling] = useState<"monthly" | "annual">("monthly")
-
-  const displayPlans = PLANS.map((plan) => ({
-    ...plan,
-    price: billing === "annual" && plan.annualPrice ? plan.annualPrice : plan.price,
-    href: billing === "annual" && plan.annualHref ? plan.annualHref : plan.href,
-    description: billing === "annual" && plan.annualDescription ? plan.annualDescription : plan.description,
-  }))
-
   return (
-    <div className="min-h-screen bg-zinc-50 pt-24">
-      <section className="relative overflow-hidden border-b border-zinc-100 bg-white px-6 py-20">
-        <div className="pointer-events-none absolute right-0 top-0 h-[500px] w-[500px] rounded-full opacity-15" style={{ background: "radial-gradient(circle, rgba(13,74,69,0.25) 0%, transparent 70%)" }} />
-        <div className="relative z-10 mx-auto max-w-[1200px] text-center">
-          <FadeUp>
-            <span className="chip mb-5 inline-flex border-teal/30 bg-teal-50 text-teal">Pricing</span>
-            <h1 className="mb-5 text-5xl font-extrabold text-zinc-900 sm:text-6xl">
-              Build authority.
-              <span className="text-gold gold-underline"> Pay for the layer you need.</span>
-            </h1>
-            <p className="mx-auto mb-3 max-w-2xl font-cormorant text-2xl italic text-zinc-500">
-              Free tests the workflow. Paid plans unlock the memory, archive, and operational stack.
-            </p>
-            <p className="mb-10 text-sm text-zinc-400">Domain: byqalam.com · Product: Qalam · No credit card required for trials</p>
-
-            <div className="inline-flex items-center gap-1 rounded-xl bg-zinc-100 p-1.5">
-              <button onClick={() => setBilling("monthly")} className={`rounded-lg px-5 py-2.5 text-sm font-semibold transition-all ${billing === "monthly" ? "bg-white text-zinc-900 shadow-sm" : "text-zinc-500 hover:text-zinc-700"}`}>
-                Monthly
-              </button>
-              <button onClick={() => setBilling("annual")} className={`flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-all ${billing === "annual" ? "bg-white text-zinc-900 shadow-sm" : "text-zinc-500 hover:text-zinc-700"}`}>
-                Annual
-                <span className="rounded-md bg-green-100 px-1.5 py-0.5 text-xs font-bold text-green-700">Save 20%</span>
-              </button>
-            </div>
-          </FadeUp>
-        </div>
-      </section>
-
-      <section className="border-b border-zinc-100 bg-zinc-50 px-6 py-8">
-        <div className="mx-auto max-w-[860px]">
-          <div className="flex flex-col items-center justify-center gap-6 sm:flex-row sm:gap-10">
-            {[
-              { icon: VoiceIcon, label: "Voice Profile from real writing", sub: "A memory layer, not a cosmetic toggle" },
-              { icon: ArchiveIcon, label: "Archive continuity across plans", sub: "Drafts, versions, and wins stay attached" },
-              { icon: ShieldIcon, label: "Clear pricing and real scope", sub: "No fake enterprise language or bait logic" },
-            ].map((item) => {
-              const Icon = item.icon
-              return (
-                <div key={item.label} className="flex max-w-[240px] items-start gap-3">
-                  <span className="mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-teal shadow-sm ring-1 ring-zinc-200">
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  <div>
-                    <p className="text-sm font-semibold leading-snug text-zinc-800">{item.label}</p>
-                    <p className="mt-0.5 text-xs text-zinc-400">{item.sub}</p>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section className="px-6 py-20">
-        <div className="mx-auto max-w-[1200px]">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={billing}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="grid grid-cols-1 items-start gap-6 sm:grid-cols-2 xl:grid-cols-4"
-            >
-              {displayPlans.map((plan, i) => (
-                <FadeUp key={plan.plan} delay={i * 0.08}>
-                  <PricingCard {...plan} />
-                </FadeUp>
-              ))}
-            </motion.div>
-          </AnimatePresence>
-
-          <FadeUp className="mt-8 text-center">
-            <p className="text-sm text-zinc-400">All paid plans include a 7-day free trial. No credit card required to start.</p>
-          </FadeUp>
-        </div>
-      </section>
-
-      <section className="bg-white px-6 py-16">
-        <div className="mx-auto max-w-[1100px]">
-          <FadeUp className="mb-10 text-center">
-            <h2 className="text-3xl font-bold text-zinc-900">Compare all plans</h2>
-            <p className="mt-2 text-sm text-zinc-500">Compounding features first. Operational features after that.</p>
-          </FadeUp>
-
-          <FadeUp>
-            <div className="overflow-x-auto rounded-2xl border border-zinc-100 shadow-sm">
-              <table className="min-w-[640px] w-full text-sm">
-                <thead>
-                  <tr className="border-b border-zinc-100 bg-zinc-50">
-                    <th className="w-[30%] px-5 py-4 text-left font-semibold text-zinc-700">Feature</th>
-                    <th className="px-4 py-4 text-center font-semibold text-zinc-500">Free</th>
-                    <th className="bg-teal-50/50 px-4 py-4 text-center font-semibold text-teal">Pro</th>
-                    <th className="px-4 py-4 text-center font-semibold text-zinc-700">Team</th>
-                    <th className="bg-gold/5 px-4 py-4 text-center font-semibold text-gold">Agency</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-zinc-50">
-                  {COMPARISON_ROWS.map((row, i) => (
-                    <motion.tr
-                      key={row.label}
-                      initial={{ opacity: 0, x: -12 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: i * 0.03 }}
-                      className="transition-colors hover:bg-zinc-50/50"
-                    >
-                      <td className="px-5 py-3.5 text-sm font-medium text-zinc-700">{row.label}</td>
-                      <td className="px-4 py-3.5 text-center text-sm text-zinc-400">{row.free === "✗" ? <span className="text-base text-zinc-200">✕</span> : row.free}</td>
-                      <td className="bg-teal-50/30 px-4 py-3.5 text-center text-sm">{row.pro === "✗" ? <span className="text-base text-zinc-200">✕</span> : <span className="font-semibold text-teal">{row.pro}</span>}</td>
-                      <td className="px-4 py-3.5 text-center text-sm text-zinc-600">{row.team === "✗" ? <span className="text-base text-zinc-200">✕</span> : row.team.startsWith("✓") ? <span className="font-semibold text-teal">{row.team}</span> : row.team}</td>
-                      <td className="bg-gold/5 px-4 py-3.5 text-center text-sm">{row.agency === "✗" ? <span className="text-base text-zinc-200">✕</span> : <span className="font-semibold text-gold">{row.agency}</span>}</td>
-                    </motion.tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </FadeUp>
-        </div>
-      </section>
-
-      <section className="bg-zinc-50 px-6 py-16">
-        <div className="mx-auto max-w-[1200px]">
-          <FadeUp>
-            <div className="flex flex-col items-center justify-between gap-8 rounded-2xl bg-teal-800 p-10 md:flex-row">
-              <div>
-                <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-teal-200">Enterprise</p>
-                <h3 className="mb-3 text-3xl font-bold text-white">Need more than 15 seats?</h3>
-                <p className="max-w-md leading-relaxed text-white/60">
-                  Custom pricing for large teams and enterprise operators. Includes SSO, custom integrations, SLA, and a dedicated account path.
-                </p>
-              </div>
-              <div className="flex shrink-0 flex-col gap-3">
-                <Link href="mailto:enterprise@byqalam.com" className="whitespace-nowrap rounded-xl bg-gold px-8 py-4 text-center font-bold text-white transition-colors hover:bg-gold-600">
-                  Contact Sales
-                </Link>
-                <Link href="/contact" className="rounded-xl border-2 border-white/20 px-8 py-4 text-center font-semibold text-white transition-colors hover:bg-white/10">
-                  Book a Call
-                </Link>
-              </div>
-            </div>
-          </FadeUp>
-        </div>
-      </section>
-    </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingFaqSchema) }}
+      />
+      <PricingPageContent />
+    </>
   )
 }
